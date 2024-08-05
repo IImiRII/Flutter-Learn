@@ -15,10 +15,13 @@ class _ServiceLearnViewState extends State<ServiceLearnView> {
   List<PostModel>? _items;
   String? name;
   bool _isLoading = false;
+  late final Dio _dio;
+  final _baseUrl = "https://jsonplaceholder.typicode.com/";
 
   @override
   void initState() {
     super.initState();
+    _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     name = 'emir';
     fetchPostItems();
   }
@@ -50,7 +53,8 @@ class _ServiceLearnViewState extends State<ServiceLearnView> {
   Future<void> fetchPostItemsAdvanced() async {
     _changeLoading();
     final response =
-        await Dio().get('https://jsonplaceholder.typicode.com/posts');
+        //get sadece post istediği için tüm url yapıştırmadık
+        await _dio.get('posts');
     // bu kodu bekle ve suanki yorum satiri olan yere gecme demek
 
     if (response.statusCode == HttpStatus.ok) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_full_learn/202/service/service_learn_view.dart';
+import 'package:flutter_full_learn/202/service/service_post_view_learn.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const ServiceLearnView(),
+      home: const ServicePostLearnView(),
     );
   }
 }
