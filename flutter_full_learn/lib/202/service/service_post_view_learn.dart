@@ -12,7 +12,7 @@ class ServicePostLearnView extends StatefulWidget {
 }
 
 class _ServiceLearnViewState extends State<ServicePostLearnView> {
-  List<PostModel>? _items;
+  //List<PostModel>? _items;
   String? name;
   bool _isLoading = false;
   late final Dio _dio;
@@ -34,6 +34,16 @@ class _ServiceLearnViewState extends State<ServicePostLearnView> {
     });
   }
 
+  void _addItemsToService(PostModel postmodel) async {
+    _changeLoading();
+    final response = await _dio.post('posts', data: postmodel);
+
+    if (response.statusCode == HttpStatus.created) {
+      name = 'Basarili';
+    }
+    _changeLoading();
+  }
+
   Future<void> fetchPostItemsAdvanced() async {
     _changeLoading();
     final response =
@@ -46,7 +56,7 @@ class _ServiceLearnViewState extends State<ServicePostLearnView> {
 
       if (_datas is List) {
         setState(() {
-          _items = _datas.map((e) => PostModel.fromJson(e)).toList();
+          //_items = _datas.map((e) => PostModel.fromJson(e)).toList();
         });
       }
     }
@@ -69,10 +79,13 @@ class _ServiceLearnViewState extends State<ServicePostLearnView> {
           TextField(
             controller: _titleController,
             decoration: const InputDecoration(labelText: 'Title'),
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
           ),
           TextField(
             controller: _bodyController,
             decoration: const InputDecoration(labelText: 'Body'),
+            textInputAction: TextInputAction.next,
           ),
           TextField(
             controller: _userIdController,
@@ -80,7 +93,21 @@ class _ServiceLearnViewState extends State<ServicePostLearnView> {
             autofillHints: const [AutofillHints.creditCardNumber],
             decoration: const InputDecoration(labelText: 'UserId'),
           ),
-          TextButton(onPressed: () {}, child: Text('Send')),
+          TextButton(
+              onPressed: _isLoading
+                  ? null
+                  : () {
+                      if (_titleController.text.isNotEmpty &&
+                          _bodyController.text.isNotEmpty &&
+                          _userIdController.text.isNotEmpty) {
+                        final model = PostModel(
+                            body: _bodyController.text,
+                            title: _titleController.text,
+                            userId: int.tryParse(_userIdController.text));
+                        _addItemsToService(model);
+                      }
+                    },
+              child: const Text('Send')),
         ],
       ),
     );

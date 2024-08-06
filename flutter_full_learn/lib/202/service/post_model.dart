@@ -16,11 +16,11 @@ class PostModel {
 
   // hicbir zaman buraya kod yazilmaz
   Map<String, dynamic> toJson() {
-    return {
-      'userId': userId,
-      'id': id,
-      'title': title,
-      'body': body,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['id'] = id;
+    data['title'] = title;
+    data['body'] = body;
+    return data;
   }
 }
